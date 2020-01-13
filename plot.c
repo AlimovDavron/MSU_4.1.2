@@ -13,7 +13,7 @@ void draw(double a, double b, double h, double* result){
     fprintf(pipe, " , '-' with linespoints pointtype 7 lt -1 title 'Приближение'\n");
 
     double left = a, right = b;
-    for(; left < right; left += h)
+    for(; left < right; left += 0.001)
         fprintf(pipe, "%lf %lf\n", left, groundTruth(left));
 
     fprintf(pipe, "%s\n", "e");

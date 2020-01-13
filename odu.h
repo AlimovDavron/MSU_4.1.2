@@ -20,5 +20,4 @@ int memsize_tmp();
 int AdamsMoultonMethod(double a, double b, double h, double y0, double z0, double *tmp, double* result);
 double NewtonMethod(double a, double b, double h, double ya, double yb, double eps, double *tmp, double* result);
 void draw(double a, double b, double h, double* result);
-
 #endif //MSU_4_1_2_ODU_H

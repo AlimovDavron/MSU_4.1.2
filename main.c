@@ -1,17 +1,79 @@
 #include "odu.h"
 
-int main() {
+int validateFile(char* filename)
+{
+    FILE *f = fopen(filename, "rb");
+    return f != NULL;
+}
 
+int readInputData(char *inputFile, double *a, double *b, double *c, double *d, double *h, double *eps)
+{
+    int checkInput;
+    FILE *in = fopen(inputFile, "r");
 
-    double a = 0, b = 2, h = 0.1;
+    checkInput = fscanf(in, "%lf", a);
+    if(checkInput == EOF)
+        return 5;
+    if(checkInput == 0)
+        return 6;
+
+    checkInput = fscanf(in, "%lf", b);
+    if(checkInput == EOF)
+        return 5;
+    if(checkInput == 0)
+        return 6;
+
+    checkInput = fscanf(in, "%lf", c);
+    if(checkInput == EOF)
+        return 5;
+    if(checkInput == 0)
+        return 6;
+
+    checkInput = fscanf(in, "%lf", d);
+    if(checkInput == EOF)
+        return 5;
+    if(checkInput == 0)
+        return 6;
+
+    checkInput = fscanf(in, "%lf", h);
+    if(checkInput == EOF)
+        return 5;
+    if(checkInput == 0)
+        return 6;
+
+    checkInput = fscanf(in, "%lf", eps);
+    if(checkInput == EOF)
+        return 5;
+    if(checkInput == 0)
+        return 6;
+
+    return 0;
+}
+
+int main(int argc, char* argv[]) {
+    double a, b, c, d, h, eps;
+    char* inputFile = "input.txt";
+    char* outputFile = "output.txt";
+    if(argc > 1){
+        inputFile = argv[1];
+        if(argc > 2) {
+            outputFile = argv[2];
+        }
+    }
+
+    if (!validateFile(inputFile)) {
+        printf("ValidationError: There is no such file.\n");
+        return 3;
+    }
+
+    readInputData(inputFile, &a, &b, &c, &d, &h, &eps);
 
     double* result = malloc(memsize_result(a, b, h));
     double* tmp = malloc(memsize_tmp());
 
-    // double parameter = NewtonMethod(a, b, h, 1, groundTruth(b), 1e-10, tmp, result);
-    AdamsMoultonMethod(a, b, h, 1, -1, tmp, result);
-
+    NewtonMethod(a, b, h, c, d, eps, tmp, result);
     draw(a, b, h, result);
+
 
     return 0;
 }

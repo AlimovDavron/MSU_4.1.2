@@ -44,17 +44,17 @@ int AdamsMoultonMethod(double a, double b, double h, double y0, double z0, doubl
         k1 = h * g(Xo, Yo, Zo);
         q1 = h * f(Xo, Yo, Zo);
 
-        k2 = h * g(Xo + h / 2.0, Yo + q1 / 2.0, Zo + k1 / 2.0);
-        q2 = h * f(Xo + h / 2.0, Yo + q1 / 2.0, Zo + k1 / 2.0);
+        k2 = h * g(Xo + h / 2, Yo + q1 / 2, Zo + k1 / 2);
+        q2 = h * f(Xo + h / 2, Yo + q1 / 2, Zo + k1 / 2);
 
-        k3 = h * g(Xo + h / 2.0, Yo + q2 / 2.0, Zo + k2 / 2.0);
-        q3 = h * f(Xo + h / 2.0, Yo + q2 / 2.0, Zo + k2 / 2.0);
+        k3 = h * g(Xo + h / 2, Yo + q2 / 2, Zo + k2 / 2);
+        q3 = h * f(Xo + h / 2, Yo + q2 / 2, Zo + k2 / 2);
 
         k4 = h * g(Xo + h, Yo + q3, Zo + k3);
         q4 = h * f(Xo + h, Yo + q3, Zo + k3);
 
-        Z1 = Zo + (k1 + 2.0 * k2 + 2.0 * k3 + k4) / 6.0;
-        Y1 = Yo + (q1 + 2.0 * q2 + 2.0 * q3 + q4) / 6.0;
+        Z1 = Zo + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
+        Y1 = Yo + (q1 + 2 * q2 + 2 * q3 + q4) / 6;
 
         Y_last[i] = Y1;
         Z_last[i] = Z1;
@@ -63,23 +63,20 @@ int AdamsMoultonMethod(double a, double b, double h, double y0, double z0, doubl
         Zo = Z1;
 
         *(result + i + 1) = Yo;
-        printf("%lf %lf %lf %lf\n", Xo + h, Yo, groundTruth(Xo + h), Zo);
     }
 
-
-    double a1 = 55, a2 = -59, a3 = 37, a4 = -9;
     for(i = 4; i < n; i++, Xo += h){
-        Y1 = Y_last[3] + h * (a1*g(Xo, Y_last[3], Z_last[3]) + a2*g(Xo-h, Y_last[2], Z_last[2]) +
-                a3*g(Xo-2*h, Y_last[1], Z_last[1]) + a4*g(Xo-3*h, Y_last[0], Z_last[0])) / 24;
+        Y1 = Y_last[3] + h * (55*f(Xo, Y_last[3], Z_last[3]) - 59*f(Xo-h, Y_last[2], Z_last[2]) +
+                37*f(Xo-2*h, Y_last[1], Z_last[1]) - 9*f(Xo-3*h, Y_last[0], Z_last[0])) / 24;
 
-        Z1 = Z_last[3] + h * (a1 * f(Xo, Y_last[3], Z_last[3]) + a2 * f(Xo - h, Y_last[2], Z_last[2]) +
-                a3 * f(Xo - 2 * h, Y_last[1], Z_last[1]) + a4 * f(Xo - 3 * h, Y_last[0], Z_last[0])) / 24;
+        Z1 = Z_last[3] + h * (55 * g(Xo, Y_last[3], Z_last[3]) -59 * g(Xo - h, Y_last[2], Z_last[2]) +
+                37 * g(Xo - 2 * h, Y_last[1], Z_last[1]) - 9 * g(Xo - 3 * h, Y_last[0], Z_last[0])) / 24;
 
-        Y1 = Y_last[3] + h * (9*g(Xo+h, Y1, Z1) + 19*g(Xo, Y_last[3], Z_last[3]) -
-                5*g(Xo-h, Y_last[2], Z_last[2]) + g(Xo-2*h, Y_last[1], Z_last[1])) / 24;
+        Y1 = Y_last[3] + h * (9*f(Xo+h, Y1, Z1) + 19*f(Xo, Y_last[3], Z_last[3]) -
+                5*f(Xo-h, Y_last[2], Z_last[2]) + f(Xo-2*h, Y_last[1], Z_last[1])) / 24;
 
-        Z1 = Z_last[3] + h * (9 * f(Xo + h, Y1, Z1) + 19 * f(Xo, Y_last[3], Z_last[3]) -
-                5 * f(Xo - h, Y_last[2], Z_last[2]) + f(Xo - 2 * h, Y_last[1], Z_last[1])) / 24;
+        Z1 = Z_last[3] + h * (9 * g(Xo + h, Y1, Z1) + 19 * g(Xo, Y_last[3], Z_last[3]) -
+                5 * g(Xo - h, Y_last[2], Z_last[2]) + g(Xo - 2 * h, Y_last[1], Z_last[1])) / 24;
 
         for(j = 0; j < 3; j++){
             Y_last[j] = Y_last[j+1];
@@ -90,7 +87,6 @@ int AdamsMoultonMethod(double a, double b, double h, double y0, double z0, doubl
         Z_last[3] = Z1;
 
         *(result + i + 1) = Y1;
-        printf("%lf %lf %lf %lf\n", Xo + h, Y1, groundTruth(Xo + h), Z1);
     }
 }
 
