@@ -1,7 +1,7 @@
 //
 // Created by alimovdavron on 1/12/20.
 //
-#include "odu.h"
+#include "odu_01_36.h"
 
 int memsize_result(double a, double b, double h){
     int n = (b - a) / h + 1;

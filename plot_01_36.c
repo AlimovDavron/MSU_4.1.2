@@ -2,7 +2,7 @@
 // Created by alimovdavron on 1/12/20.
 //
 
-#include "odu.h"
+#include "odu_01_36.h"
 
 void draw(double a, double b, double h, double* result){
     FILE *pipe = popen("gnuplot -persistent", "w");
