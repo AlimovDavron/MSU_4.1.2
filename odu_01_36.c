@@ -26,7 +26,7 @@ int min(int a, int b){
     else return b;
 }
 
-int AdamsMoultonMethod(double a, double b, double h, double y0, double z0, double *tmp, double* result){
+void AdamsMoultonMethod(double a, double b, double h, double y0, double z0, double *tmp, double* result){
     int n = (b - a) / h, i, j;
     double k1, k2, k4, k3;
     double q1, q2, q4, q3;
