@@ -52,6 +52,7 @@ int readInputData(char *inputFile, double *a, double *b, double *c, double *d, d
 
 int main(int argc, char* argv[]) {
     double a, b, c, d, h, eps;
+    int i;
     char* inputFile = "input_01_36.txt";
     char* outputFile = "output_01_36.txt";
     if(argc > 1){
@@ -85,6 +86,12 @@ int main(int argc, char* argv[]) {
     NewtonMethod(a, b, h, c, d, eps, tmp, result);
     draw(a, b, h, result);
 
+    FILE *out = fopen(outputFile, "w");
+    double from = a;
+    for(i = 0; i < (int)((b - a) / h) + 1; i++) {
+        fprintf(out, "%1.9lf %1.9lf\n", from, result[i]);
+        from += h;
+    }
 
     return 0;
 }

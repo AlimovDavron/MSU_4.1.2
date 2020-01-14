@@ -1,11 +1,11 @@
 #include "odu_01_36.h"
 
 double p(double x){
-    return 0;
+    return -1;
 }
 
 double q(double x){
-    return -1;
+    return -2;
 }
 
 double r(double x){
@@ -13,5 +13,5 @@ double r(double x){
 }
 
 double groundTruth(double x){
-    return exp(-x);
+    return -2*exp(-x);
 }
